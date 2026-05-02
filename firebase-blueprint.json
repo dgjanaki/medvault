@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information for patients and doctors.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "role": { "type": "string", "enum": ["patient", "doctor"] },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "age": { "type": "string" },
+        "gender": { "type": "string" },
+        "bloodGroup": { "type": "string" },
+        "address": { "type": "string" },
+        "degree": { "type": "string" },
+        "sharingEnabled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "role", "name", "email"]
+    },
+    "MedicalRecord": {
+      "title": "Medical Record",
+      "description": "Health record upload by a patient.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "patientId": { "type": "string" },
+        "fileURL": { "type": "string" },
+        "type": { "type": "string", "enum": ["prescription", "report"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "patientId", "fileURL", "type", "createdAt"]
+    },
+    "Reminder": {
+      "title": "Reminder",
+      "description": "Health reminder for the user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "time": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "time", "completed"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Storage for user profiles."
+    },
+    "/users/{userId}/reminders/{reminderId}": {
+      "schema": "Reminder",
+      "description": "User specific health reminders."
+    },
+    "/records/{recordId}": {
+      "schema": "MedicalRecord",
+      "description": "Storage for medical records."
+    }
+  }
+}
